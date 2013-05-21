@@ -2,7 +2,7 @@
 
 Work in progress!
 
-AngularJS module for session management with mCAP backends. Intercepts all $http requests. On unauthorized requests, the request is
+AngularJS module for session management with mCAP backends. Intercepts all $http requests. On unauthorized requests, the request is put into a queue and will be resent as soon as a new valid session exists.
 
 Concept taken from [http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application](http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application). Credits to Witold Szczerba.
 
@@ -12,7 +12,7 @@ Author: Volker Tietz (v.tietz@mwaysolutions.com)
 
 `$ bower install volkert/angularjs-mcap-session`
 
-# Usage
+# Usage/Example
 
 ```
 // Add mCAP.Session module as dependency of your main AngularJS module
@@ -48,6 +48,22 @@ YourApp.run(['$rootScope', function ($rootScope) {
   // Initial session validation check
   $rootScope.$broadcast('mcap:ping');
 }]);
+
+
+// Controller for login form
+var LoginController = function($rootScope, $scope){
+  $scope.signIn = function() {
+    $rootScope.$broadcast('mcap:loginRequest', $scope.organization, $scope.username, $scope.password);
+  };
+  $scope.$on('mcap:loginDenied', function() {
+    $scope.errorMessage = 'Login failed';
+  });
+};
+
+// Controller for logout
+var LogoutController = function($rootScope){
+  $rootScope.$broadcast('mcap:logoutRequest');
+};
 ```
 
 # Events
