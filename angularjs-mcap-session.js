@@ -52,7 +52,6 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * On 'mcap:loginRequest' send credentials to the server.
    */
   $rootScope.$on('mcap:loginRequest', function (event, organization, username, password) {
-    $log.info('mcap:loginRequest');
     var params = { 'j_organization':organization, 'j_username':username, 'j_password':password };
     $http({method:'POST', url:config.loginUrl, params:params})
         .success(function (data) {
@@ -71,7 +70,6 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * On 'mcap:loginConfirmed', resend all the 403 requests.
    */
   $rootScope.$on('mcap:loginConfirmed', function () {
-    $log.info('on mcap:loginConfirmed');
     var i, requests = $rootScope.unauthorizedRequests;
     for (i = 0; i < requests.length; i++) {
       $http(requests[i].config).then(function (response) {
@@ -87,7 +85,6 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * On 'logoutRequest' invoke logout on the server and trigger ping to show login form
    */
   $rootScope.$on('mcap:logoutRequest', function () {
-    $log.info('mcap:logoutRequest');
     $http.post(config.logoutUrl).then(function () {
       $rootScope.$broadcast('mcap:ping');
     });
@@ -97,7 +94,6 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * Ping server to figure out if user is already logged in.
    */
   $rootScope.$on('mcap:ping', function () {
-    $log.info('mcap:ping');
     $http.get(config.pingUrl).success(function (response) {
       if (response.name !== null) {  // Username is null if user is not logged in
         $rootScope.$broadcast('mcap:loginConfirmed');
