@@ -2,7 +2,7 @@
 
 Work in progress!
 
-AngularJS module for session management with mCAP backends.
+AngularJS module for session management with mCAP backends. Intercepts all $http requests. On unauthorized requests, the request is
 
 Concept taken from [http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application](http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application). Credits to Witold Szczerba.
 
@@ -26,37 +26,63 @@ mCAP.Session.service('mCAP.Session.config', function () {
     logoutUrl: 'http://path-to.example-mcap.com/gofer/security-logout'
   };
 });
+
+YourApp.run(['$rootScope', function ($rootScope) {
+
+  $rootScope.$on('mcap:loginRequired', function () {
+    // e.g. show login form
+  });
+
+  $rootScope.$on('mcap:loginConfirmed', function () {
+    // Actions on successful login
+  });
+
+  $rootScope.$on('mcap:serverWentAway', function () {
+    // e.g. show error page
+  });
+
+  $rootScope.$on('mcap:ping', function () {
+    // e.g. save previous location if someone enters on #/aPath and is redirected to login form to redirect back after successful login
+  });
+
+  // Initial session validation check
+  $rootScope.$broadcast('mcap:ping');
+}]);
 ```
 
 # Events
 
 There are several events which are either automatically broadcasted by the module, can be broadcasted to trigger an event or both.
 
-## mcap:ping
+### mcap:ping
 
 Sends a request to the pingUrl endpoint.
 
 **Broadcast** if you want to check if your session is still valid.
 
-## mcap:loginRequest, `organization`, `username`, `password`
+### mcap:loginRequest, `organization`, `username`, `password`
 
 Sends the actual login request to the mCAP instance. All parameters are required for the request to be sent.
 
 **Broadcast** with organization name, username and password to log in and create a session.
 **Fires** mcap:loginConfirmed, mcap:loginDenied
 
-## mcap:loginConfirmed
+### mcap:loginConfirmed
 
 **Listen** if you want to hook something upon a successful login
 
-## mcap:loginDenied
+### mcap:loginDenied
 
 **Listen** if you want to hook something upon a failed login
 
-## mcap:logoutRequest
+### mcap:logoutRequest
 
 **Broadcast** to destroy your current session.
 **Fires** mcap:ping
+
+### mcap:serverWentAway
+
+**Listen** if you want to capture
 
 
 

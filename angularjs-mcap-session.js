@@ -44,7 +44,7 @@ mCAP.Session.config(mCAPSessionInterceptor);
 
 mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.config', function ($rootScope, $location, $http, $log, config) {
   /**
-   * Holds all the requests which failed due to 401/403 response.
+   * Holds all the requests which failed due to 403 response.
    */
   $rootScope.unauthorizedRequests = [];
 
@@ -68,7 +68,7 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
   });
 
   /**
-   * On 'mcap:loginConfirmed', resend all the 401 requests.
+   * On 'mcap:loginConfirmed', resend all the 403 requests.
    */
   $rootScope.$on('mcap:loginConfirmed', function () {
     $log.info('on mcap:loginConfirmed');
