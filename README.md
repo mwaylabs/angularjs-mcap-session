@@ -17,21 +17,46 @@ Author: Volker Tietz (v.tietz@mwaysolutions.com)
 ```
 // Add mCAP.Session module as dependency of your main AngularJS module
 angular.module('YourApp', ['mCAP.Session']);
+
+// Set up mCAP.Session config with URLs to service endpoints (see mCAP docs)
+mCAP.Session.service('mCAP.Session.config', function () {
+  return {
+    pingUrl: 'http://path-to.example-mcap.com/gofer/system/security/currentAuthorization',
+    loginUrl: 'http://path-to.example-mcap.com/gofer/security-login',
+    logoutUrl: 'http://path-to.example-mcap.com/gofer/security-logout'
+  };
+});
 ```
 
 # Events
 
+There are several events which are either automatically broadcasted by the module, can be broadcasted to trigger an event or both.
+
 ## mcap:ping
 
-Sends a request to
+Sends a request to the pingUrl endpoint.
+
+**Broadcast** if you want to check if your session is still valid.
 
 ## mcap:loginRequest, `organization`, `username`, `password`
 
+Sends the actual login request to the mCAP instance. All parameters are required for the request to be sent.
+
+**Broadcast** with organization name, username and password to log in and create a session.
+**Fires** mcap:loginConfirmed, mcap:loginDenied
+
 ## mcap:loginConfirmed
+
+**Listen** if you want to hook something upon a successful login
 
 ## mcap:loginDenied
 
+**Listen** if you want to hook something upon a failed login
+
 ## mcap:logoutRequest
+
+**Broadcast** to destroy your current session.
+**Fires** mcap:ping
 
 
 
