@@ -80,7 +80,7 @@ Sends a request to the pingUrl endpoint.
 
 Sends the actual login request to the mCAP instance. All parameters are required for the request to be sent.
 
-**Broadcast** with organization name, username and password to log in and create a session.
+**Broadcast** with organization name, username and password to log in and create a session.    
 **Fires** mcap:loginConfirmed, mcap:loginDenied
 
 ### mcap:loginConfirmed
@@ -93,7 +93,7 @@ Sends the actual login request to the mCAP instance. All parameters are required
 
 ### mcap:logoutRequest
 
-**Broadcast** to destroy your current session.
+**Broadcast** to destroy your current session. 
 **Fires** mcap:ping
 
 ### mcap:serverWentAway
