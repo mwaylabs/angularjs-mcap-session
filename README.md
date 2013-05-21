@@ -10,7 +10,7 @@ Author: Volker Tietz (v.tietz@mwaysolutions.com)
 
 # Installation
 
-`$ bower install volkert/angularjs-mcap-session`
+`$ bower install mwaylabs/angularjs-mcap-session`
 
 # Usage/Example
 
