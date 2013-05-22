@@ -10,11 +10,13 @@ Author: Volker Tietz (v.tietz@mwaysolutions.com)
 
 # Installation
 
-`$ bower install mwaylabs/angularjs-mcap-session`
+```shell
+$ bower install mwaylabs/angularjs-mcap-session
+```
 
 # Usage/Example
 
-```
+```javascript
 // Add mCAP.Session module as dependency of your main AngularJS module
 angular.module('YourApp', ['mCAP.Session']);
 
@@ -70,35 +72,34 @@ var LogoutController = function($rootScope){
 
 There are several events which are either automatically broadcasted by the module, can be broadcasted to trigger an event or both.
 
-### mcap:ping
+## mcap:ping
 
 Sends a request to the pingUrl endpoint.
 
 **Broadcast** if you want to check if your session is still valid.
 
-### mcap:loginRequest, `organization`, `username`, `password`
+## mcap:loginRequest, `organization`, `username`, `password`
 
 Sends the actual login request to the mCAP instance. All parameters are required for the request to be sent.
 
 **Broadcast** with organization name, username and password to log in and create a session.    
 **Fires** mcap:loginConfirmed, mcap:loginDenied
 
-### mcap:loginConfirmed
+## mcap:loginConfirmed
 
 **Listen** if you want to hook something upon a successful login
 
-### mcap:loginDenied
+## mcap:loginDenied
 
 **Listen** if you want to hook something upon a failed login
 
-### mcap:logoutRequest
+## mcap:logoutRequest
 
-**Broadcast** to destroy your current session. 
+**Broadcast** to destroy your current session.   
 **Fires** mcap:ping
 
 ### mcap:serverError
-
-**Listen** if you want to capture
+**Listen** if you want to capture any 5xx responses from the server
 
 
 
