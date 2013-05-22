@@ -96,7 +96,7 @@ Sends the actual login request to the mCAP instance. All parameters are required
 **Broadcast** to destroy your current session. 
 **Fires** mcap:ping
 
-### mcap:serverWentAway
+### mcap:serverError
 
 **Listen** if you want to capture
 

@@ -18,7 +18,7 @@ var mCAPSessionInterceptor = ['$httpProvider', function ($httpProvider) {
 
       // Broadcast mcap:serverWentAway if something on serverside goes wrong
       if (serverWentAwayResponses.indexOf(status) !== -1) {
-        rootScope.$broadcast('mcap:serverWentAway');
+        rootScope.$broadcast('mcap:serverError');
         return deferred.promise;
 
         // Broadcast mcap:loginRequired server responds with 403
