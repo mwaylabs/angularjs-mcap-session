@@ -100,7 +100,7 @@ Sends the actual login request to the mCAP instance. All parameters are required
 
 ## mcap:serverWentAway
 
-**Listen** if you want to capture
+**Listen** if you want to capture any 5xx responses from the server
 
 
 
