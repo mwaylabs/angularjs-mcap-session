@@ -18,14 +18,14 @@ var mCAPSessionInterceptor = ['$httpProvider', function ($httpProvider) {
 
       // Broadcast mcap:serverWentAway if something on serverside goes wrong
       if (serverWentAwayResponses.indexOf(status) !== -1) {
-        rootScope.$broadcast('mcap:serverError');
+        rootScope.$broadcast('mcap:serverError', response);
         return deferred.promise;
 
         // Broadcast mcap:loginRequired server responds with 403
       } else if (unauthorizedResponses.indexOf(status) !== -1) {
         var req = {
-          config:response.config,
-          deferred:deferred
+          config: response.config,
+          deferred: deferred
         };
         rootScope.unauthorizedRequests.push(req);
         rootScope.$broadcast('mcap:loginRequired');
@@ -52,8 +52,8 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * On 'mcap:loginRequest' send credentials to the server.
    */
   $rootScope.$on('mcap:loginRequest', function (event, organization, username, password) {
-    var params = { 'j_organization':organization, 'j_username':username, 'j_password':password };
-    $http({method:'POST', url:config.loginUrl, params:params})
+    var params = { 'j_organization': organization, 'j_username': username, 'j_password': password };
+    $http({method: 'POST', url: config.loginUrl, params: params})
         .success(function (data) {
           if (data === 'success') {
             $rootScope.$broadcast('mcap:loginConfirmed');
@@ -94,12 +94,16 @@ mCAP.Session.run(['$rootScope', '$location', '$http', '$log', 'mCAP.Session.conf
    * Ping server to figure out if user is already logged in.
    */
   $rootScope.$on('mcap:ping', function () {
-    $http.get(config.pingUrl).success(function (response) {
-      if (response.name !== null) {  // Username is null if user is not logged in
-        $rootScope.$broadcast('mcap:loginConfirmed');
-      } else {
-        $rootScope.$broadcast('mcap:loginRequired');
-      }
-    });
+    $http.get(config.pingUrl)
+        .success(function (response) {
+          if (response.name !== null) {  // Username is null if user is not logged in
+            $rootScope.$broadcast('mcap:loginConfirmed');
+          } else {
+            $rootScope.$broadcast('mcap:loginRequired');
+          }
+        })
+        .error(function() {
+          $log.error('pingUrl error');
+        });
   });
 }]);
