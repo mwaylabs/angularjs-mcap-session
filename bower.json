@@ -1,6 +1,6 @@
 {
   "name": "angularjs-mcap-session",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "angularjs-mcap-session.js",
   "ignore": [
     "**/.*",
